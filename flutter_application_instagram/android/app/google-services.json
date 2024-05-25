@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "193177924435",
+    "project_id": "facebook-app-9fb0d",
+    "storage_bucket": "facebook-app-9fb0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193177924435:android:56372b46d7a081b416e7a6",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_instagram"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv79CIE2KXvsbLes-aJKt4NxXgiJqFOdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
