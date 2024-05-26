@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utilis/diminssions.dart';
+import '../core/constants/platforms_diminssions.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   final Widget webScreen;
