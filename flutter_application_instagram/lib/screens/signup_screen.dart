@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
@@ -6,6 +7,9 @@ import 'package:flutter_application_instagram/core/constants/app_images.dart';
 import 'package:flutter_application_instagram/widgets/custom_button.dart';
 import 'package:flutter_application_instagram/widgets/custom_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../core/utilis/functions/image_picker.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -19,6 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
+  Uint8List? _profileImage;
   @override
   void dispose() {
     super.dispose();
@@ -53,17 +58,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             Stack(
               children: [
-                const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(
-                      'https://plus.unsplash.com/premium_photo-1689643577385-57af0aba150e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-                ),
+           CircleAvatar(
+  radius: 50,
+  backgroundImage: _profileImage != null
+      ? MemoryImage(_profileImage!) as ImageProvider
+      : const NetworkImage(
+          'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg',
+        ),
+),
                 Positioned(
                     bottom: -10,
                     right: -5,
                     child: IconButton(
                         color: primaryColor,
-                        onPressed: () {},
+                        onPressed: () async {
+                          Uint8List? image =
+                              await pickImage(ImageSource.gallery);
+                          if (image != null) {
+                            setState(() {
+                              _profileImage = image;
+                            });
+                          }
+                        },
                         icon: const Icon(Icons.add_a_photo)))
               ],
             ),
