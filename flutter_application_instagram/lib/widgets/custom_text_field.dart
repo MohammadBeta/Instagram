@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController editingController;
@@ -10,7 +11,8 @@ class CustomTextField extends StatelessWidget {
       {super.key,
       required this.editingController,
       required this.hintText,
-      this.isPassword = false, required this.textInputType});
+      this.isPassword = false,
+      required this.textInputType});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,9 @@ class CustomTextField extends StatelessWidget {
       controller: editingController,
       decoration: InputDecoration(
           border: inputBorder,
-          focusedBorder: inputBorder,
+          focusedBorder: OutlineInputBorder(
+            borderSide: Divider.createBorderSide(context, color: primaryColor),
+          ),
           enabledBorder: inputBorder,
           filled: true,
           hintText: hintText,
