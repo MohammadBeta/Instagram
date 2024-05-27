@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
-  final String text;
+  final Widget widget;
 
   const CustomButton({
     super.key,
-    required this.text,
+    required this.widget,
   });
 
   @override
@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
-      child: Text(text),
+      child: widget,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/constants/app_images.dart';
+import 'package:flutter_application_instagram/screens/login_screen.dart';
 import 'package:flutter_application_instagram/widgets/custom_button.dart';
 import 'package:flutter_application_instagram/widgets/custom_text_field.dart';
 import 'package:flutter_application_instagram/widgets/profile_image_picker.dart';
@@ -26,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   Uint8List? _profileImage;
+  bool _isLoading = false;
   @override
   void dispose() {
     super.dispose();
@@ -48,24 +50,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> signUp(BuildContext context) async {
+    if (_isLoading == true) {
+      return;
+    }
+    setState(
+      () {
+        _isLoading = true;
+      },
+    );
     String result = await AuthMethods().signUp(
         email: _emailController.text,
         password: _passwordController.text,
         userName: _userNameController.text,
         bio: _bioController.text,
         profileImage: _profileImage);
-
+    setState(
+      () {
+        _isLoading = false;
+      },
+    );
     if (result != 'success') {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(result),
+          content: Text(
+            result,
+            style: const TextStyle(color: Colors.white),
+          ),
           backgroundColor: Colors.red,
         ));
       }
     } else {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(result),
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Sign up done successfully',
+              style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.green,
         ));
       }
@@ -137,7 +155,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   log('SignUp');
                   await signUp(context);
                 },
-                child: const CustomButton(text: "Sign up"),
+                child: CustomButton(
+                    widget: _isLoading == false
+                        ? const Text("Sign up")
+                        : const CircularProgressIndicator.adaptive()),
+              ),
+              const SizedBox(
+                height: 24,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -145,7 +169,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const Text("You already have an account? "),
                   GestureDetector(
                     onTap: () {
-                      log('Log in');
+                      log('Navigate To Login Screen');
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()));
                     },
                     child: const Text(
                       "Log in",

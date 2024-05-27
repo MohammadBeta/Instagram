@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/constants/app_images.dart';
+import 'package:flutter_application_instagram/resources/firebase/auth_metohds.dart';
+import 'package:flutter_application_instagram/screens/signup_screen.dart';
 import 'package:flutter_application_instagram/widgets/custom_button.dart';
 import 'package:flutter_application_instagram/widgets/custom_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,11 +19,46 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  Future<void> login(BuildContext context) async {
+    if (_isLoading) {
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+    String result = await AuthMethods().login(
+        email: _emailController.text, password: _passwordController.text);
+
+    setState(() {
+      _isLoading = false;
+    });
+    if (result != 'success') {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            result,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+        ));
+      }
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Login done successfully',
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.green,
+        ));
+      }
+    }
   }
 
   @override
@@ -37,11 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(
-              flex: 2,
-              child: Container(),
-            ),
             SvgPicture.asset(
               instagramLogo,
               color: primaryColor,
@@ -67,14 +101,17 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24,
             ),
             InkWell(
-              onTap: () {
+              onTap: () async {
                 log('Log in');
+                await login(context);
               },
-              child: const CustomButton(text: "Log in"),
+              child: CustomButton(
+                  widget: _isLoading == false
+                      ? const Text("Login")
+                      : const CircularProgressIndicator.adaptive()),
             ),
-            Flexible(
-              flex: 2,
-              child: Container(),
+            const SizedBox(
+              height: 24,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -82,7 +119,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Text("You don't have an account? "),
                 GestureDetector(
                   onTap: () {
-                    log('Sign up');
+                    log('Navigate To Sign up Screen');
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpScreen()));
                   },
                   child: const Text(
                     "Sign up",
@@ -90,9 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 )
               ],
-            ),
-            const SizedBox(
-              height: 24,
             ),
           ],
         ),
