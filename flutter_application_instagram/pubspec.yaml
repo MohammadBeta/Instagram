@@ -54,7 +54,7 @@ dependencies:
   uuid: ^4.4.0
 
   # state management
-  flutter_riverpod: ^2.3.7
+  provider: ^6.1.2
 
   # show toast message
   fluttertoast: ^8.2.2
@@ -68,7 +68,7 @@ dependencies:
   # for displaying the stories
   story_view: ^0.16.5
   flutter_svg: ^2.0.10+1
-  provider: ^6.1.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

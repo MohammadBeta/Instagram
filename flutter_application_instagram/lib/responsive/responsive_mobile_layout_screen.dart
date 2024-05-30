@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class ResponsiveMobileLayout extends StatefulWidget {
@@ -15,25 +15,16 @@ class _ResponsiveMobileLayoutState extends State<ResponsiveMobileLayout> {
     super.initState();
   }
 
-  Future<String> fetchUserName() async {
-    DocumentSnapshot doc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();f
-    Map data = doc.data() as Map;
-    return data['userName'];
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: TextButton(
-          child: const Text("This is Mobile Layout"),
-          onPressed: () async {
-            print(await fetchUserName());
-          },
-        ),
+    log('ResponsiveMobileLayout Widget Build');
+    return const Scaffold(
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: []),
       ),
     );
   }

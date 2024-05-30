@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_instagram/providors/user_providor.dart';
 import 'package:flutter_application_instagram/screens/login_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'core/constants/app_colors.dart';
 import 'firebase_options.dart';
@@ -12,7 +14,12 @@ import 'responsive/responsive_web_layout_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MainApp());
+  runApp(ChangeNotifierProvider(
+    child: const MainApp(),
+    create: (context){
+      return UserProvidor();
+    },
+  ));
 }
 
 class MainApp extends StatelessWidget {
@@ -27,6 +34,7 @@ class MainApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
+            
             if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
                 return const ResponsiveLayout(

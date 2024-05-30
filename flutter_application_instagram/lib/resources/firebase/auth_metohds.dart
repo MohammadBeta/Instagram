@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
 import 'package:flutter_application_instagram/resources/firebase/firestore_methods.dart';
@@ -92,5 +93,13 @@ class AuthMethods {
 
     log(result);
     return result;
+  }
+
+  Future<UserModel> getUser() async {
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    return UserModel.formSnap(doc);
   }
 }
