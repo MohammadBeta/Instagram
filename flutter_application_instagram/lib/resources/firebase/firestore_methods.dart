@@ -25,7 +25,8 @@ class FireStoreMethods {
           userName: user.userName,
           profileImageUrl: user.profileImageUrl,
           postImageUrl: postImageUrl,
-          postDescription: postDescription);
+          postDescription: postDescription,
+          likes: 0);
       await _firestore.collection('posts').doc(postId).set(post.toJosn());
       result = "success";
     } catch (error) {

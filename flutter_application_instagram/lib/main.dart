@@ -15,7 +15,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final userProvider = UserProvider();
-  await userProvider.refreshUser();
+  if (FirebaseAuth.instance.currentUser != null) {
+    await userProvider.refreshUser();
+  }
   runApp(ChangeNotifierProvider<UserProvider>(
     child: const MainApp(),
     create: (context) => userProvider,

@@ -8,12 +8,14 @@ class PostModel {
   final String postDescription;
   final String postImageUrl;
   final String profileImageUrl;
+  final int likes;
   PostModel(
       {required this.userUid,
       required this.userName,
       required this.profileImageUrl,
       required this.postImageUrl,
       required this.postDescription,
+      required this.likes
       });
 
   factory PostModel.formSnap(DocumentSnapshot snap) {
@@ -24,7 +26,9 @@ class PostModel {
         userName: data['userName'],
         profileImageUrl: data['ProfileImageUrl'],
         postImageUrl: data['postImageUrl'],
-        postDescription: data['postDescription']);
+        postDescription: data['postDescription'],
+        likes: data['likes'] ?? 0,
+        );
   }
   Map<String, dynamic> toJosn() {
     return {
@@ -32,7 +36,8 @@ class PostModel {
       'userName': userName,
       'ProfileImageUrl': profileImageUrl,
       'postDescription': postDescription,
-      'postImageUrl': postImageUrl
+      'postImageUrl': postImageUrl,
+      'likes': likes,
     };
   }
 }
