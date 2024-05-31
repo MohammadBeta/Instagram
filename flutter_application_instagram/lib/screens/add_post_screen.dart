@@ -5,6 +5,7 @@ import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/utilis/functions/image_picker.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
 import 'package:flutter_application_instagram/providors/user_providor.dart';
+import 'package:flutter_application_instagram/resources/firebase/firestore_methods.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class AddPostScreenState extends StatefulWidget {
 class _AddPostScreenStateState extends State<AddPostScreenState> {
   Uint8List? _postImage;
   final TextEditingController _captionController = TextEditingController();
+  bool _isLoading = false;
   void _selectPostImage(BuildContext context) async {
     await showDialog(
         context: context,
@@ -53,6 +55,44 @@ class _AddPostScreenStateState extends State<AddPostScreenState> {
         });
   }
 
+  Future<void> publishPost(UserModel user, BuildContext context) async {
+    if (_isLoading == true) {
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+    String result = await FireStoreMethods()
+        .publishPost(_captionController.text, _postImage!, user);
+    setState(() {
+      _isLoading = false;
+      clearPost();
+    });
+    if (result != "success") {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(result, style: const TextStyle(color: Colors.white)),
+          backgroundColor: Colors.red,
+        ));
+      }
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Publishing post done successfully',
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.green,
+        ));
+      }
+    }
+  }
+
+  void clearPost() {
+    setState(() {
+      _captionController.text = "";
+      _postImage = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     UserModel user = Provider.of<UserProvider>(context, listen: false).user;
@@ -70,10 +110,14 @@ class _AddPostScreenStateState extends State<AddPostScreenState> {
             appBar: AppBar(
               backgroundColor: mobileBackgroundColor,
               title: const Text("New Post"),
-              leading: const Icon(Icons.arrow_back),
+              leading: IconButton(
+                  onPressed: () => clearPost(),
+                  icon: const Icon(Icons.arrow_back)),
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await publishPost(user, context);
+                  },
                   child: const Text(
                     "Publish",
                     style: TextStyle(
@@ -84,6 +128,17 @@ class _AddPostScreenStateState extends State<AddPostScreenState> {
             ),
             body: Column(
               children: [
+                SizedBox(
+                  height: 5,
+                  child: _isLoading
+                      ? const LinearProgressIndicator(
+                          color: primaryColor,
+                        )
+                      : Container(),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -92,8 +147,9 @@ class _AddPostScreenStateState extends State<AddPostScreenState> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.5,
-                      child: const TextField(
-                        decoration: InputDecoration(
+                      child: TextField(
+                        controller: _captionController,
+                        decoration: const InputDecoration(
                             hintText: "Write a caption here..."),
                       ),
                     ),

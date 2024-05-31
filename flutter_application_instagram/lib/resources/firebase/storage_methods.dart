@@ -15,4 +15,14 @@ class FirebaseStorageMethods {
     await uploadTask;
     return await uploadTask.snapshot.ref.getDownloadURL();
   }
+
+    Future<String> uploadPostImage(String postId, Uint8List file) async {
+    Reference storageRef = _firebaseStorage
+        .ref()
+        .child('posts')
+        .child(_firebaseAuth.currentUser!.uid).child(postId);
+    UploadTask uploadTask = storageRef.putData(file);
+    await uploadTask;
+    return await uploadTask.snapshot.ref.getDownloadURL();
+  }
 }
