@@ -20,23 +20,17 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
     super.initState();
   }
 
-  addData() async {
-    await Provider.of<UserProvidor>(context, listen: false).getUser();
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: addData(),
-        builder: (context, a) {
-          return LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth > webScreenSize) {
-                return widget.webScreen;
-              }
-              return widget.mobileScreen;
-            },
-          );
-        });
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > webScreenSize) {
+          return widget.webScreen;
+        }
+        return widget.mobileScreen;
+      },
+    );
   }
 }

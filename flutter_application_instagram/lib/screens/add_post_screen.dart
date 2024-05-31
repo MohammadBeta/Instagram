@@ -1,0 +1,120 @@
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_instagram/core/constants/app_colors.dart';
+import 'package:flutter_application_instagram/core/utilis/functions/image_picker.dart';
+import 'package:flutter_application_instagram/models/user_model.dart';
+import 'package:flutter_application_instagram/providors/user_providor.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+class AddPostScreenState extends StatefulWidget {
+  const AddPostScreenState({super.key});
+
+  @override
+  State<AddPostScreenState> createState() => _AddPostScreenStateState();
+}
+
+class _AddPostScreenStateState extends State<AddPostScreenState> {
+  Uint8List? _postImage;
+  final TextEditingController _captionController = TextEditingController();
+  void _selectPostImage(BuildContext context) async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            title: const Text("Upload Image"),
+            children: [
+              SimpleDialogOption(
+                child: const Text("Take a photo"),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+
+                  var image = await pickImage(ImageSource.camera);
+
+                  setState(() {
+                    _postImage = image;
+                  });
+                },
+              ),
+              SimpleDialogOption(
+                child: const Text("Choose from Gallery"),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+
+                  var image = await pickImage(ImageSource.gallery);
+                  setState(() {
+                    _postImage = image;
+                  });
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    UserModel user = Provider.of<UserProvider>(context, listen: false).user;
+    return _postImage == null
+        ? Center(
+            child: IconButton(
+                onPressed: () => _selectPostImage(context),
+                icon: const Icon(
+                  Icons.upload,
+                  size: 50,
+                  color: primaryColor,
+                )),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              backgroundColor: mobileBackgroundColor,
+              title: const Text("New Post"),
+              leading: const Icon(Icons.arrow_back),
+              actions: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "Publish",
+                    style: TextStyle(
+                        color: Colors.blue, fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
+            ),
+            body: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(user.profileImageUrl),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: const TextField(
+                        decoration: InputDecoration(
+                            hintText: "Write a caption here..."),
+                      ),
+                    ),
+                    const Divider()
+                  ],
+                ),
+                Flexible(
+                  child: Container(),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: MemoryImage(_postImage!), fit: BoxFit.fill)),
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Container(),
+                ),
+              ],
+            ));
+  }
+}

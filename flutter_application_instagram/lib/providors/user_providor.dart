@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
 import 'package:flutter_application_instagram/resources/firebase/auth_metohds.dart';
 
-class UserProvidor with ChangeNotifier {
+class UserProvider with ChangeNotifier {
   UserModel? _user;
-
-  Future<UserModel> getUser() async {
+  UserModel get user => _user!;
+  Future<UserModel> refreshUser() async {
     _user = await AuthMethods().getUser();
     return _user!;
   }

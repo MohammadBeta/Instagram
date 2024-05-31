@@ -14,11 +14,11 @@ import 'responsive/responsive_web_layout_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(ChangeNotifierProvider(
+  final userProvider = UserProvider();
+  await userProvider.refreshUser();
+  runApp(ChangeNotifierProvider<UserProvider>(
     child: const MainApp(),
-    create: (context){
-      return UserProvidor();
-    },
+    create: (context) => userProvider,
   ));
 }
 
@@ -34,7 +34,6 @@ class MainApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            
             if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
                 return const ResponsiveLayout(

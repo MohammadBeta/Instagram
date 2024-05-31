@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
@@ -6,8 +8,8 @@ class UserModel {
   final String userName;
   final String bio;
   final String profileImageUrl;
-  final List<String> followers;
-  final List<String> following;
+  final List<dynamic> followers;
+  final List<dynamic> following;
   UserModel(
       {required this.userUid,
       required this.email,
@@ -18,13 +20,14 @@ class UserModel {
       required this.following});
 
   factory UserModel.formSnap(DocumentSnapshot snap) {
-    Map data = snap.data as Map;
+    log(snap.data().toString());
+    Map<String, dynamic> data = (snap.data()) as Map<String, dynamic>;
     return UserModel(
-        userUid: data['userUid'],
+        userUid: data['uid'],
         email: data['email'],
         userName: data['userName'],
         bio: data['bio'],
-        profileImageUrl: data['profileImageUrl'],
+        profileImageUrl: data['ProfileImageUrl'],
         followers: data['followers'],
         following: data['following']);
   }
