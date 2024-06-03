@@ -1,9 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/models/comment_model.dart';
 import 'package:flutter_application_instagram/models/post_model.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
+import 'package:flutter_application_instagram/models/user_search_result_model.dart';
 import 'package:flutter_application_instagram/resources/firebase/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
@@ -59,5 +61,35 @@ class FireStoreMethods {
       result = error.toString();
     }
     return result;
+  }
+
+  Future<List<UserSearchResultModel>> searchUser(String userName) async {
+    List<UserSearchResultModel> usersList = [];
+    if (userName.isEmpty) {
+      return <UserSearchResultModel>[];
+    }
+    final QuerySnapshot<Map<String, dynamic>> users = await _firestore
+        .collection('users')
+        .where('userName', isGreaterThanOrEqualTo: userName)
+        .orderBy('userName', descending: false)
+        .get();
+    if (users.size == 0 || users.docs.isEmpty) {
+      return <UserSearchResultModel>[];
+    }
+    users.docs
+        .map((e) => {
+              usersList.add(UserSearchResultModel(
+                  userUid: e.data()['uid'].toString(),
+                  userName: e.data()['userName'].toString(),
+                  profileImageUrl: e.data()['ProfileImageUrl'].toString()))
+            })
+        .toList();
+    return usersList;
+  }
+
+  Future<UserModel> getUserByUid(String uid) async{
+   DocumentSnapshot<Map<String, dynamic>> data = await _firestore.collection('users').doc(uid).get();
+
+   return UserModel.formSnap(data);
   }
 }
