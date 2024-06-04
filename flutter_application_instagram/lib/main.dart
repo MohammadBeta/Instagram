@@ -14,13 +14,13 @@ import 'responsive/responsive_web_layout_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  final userProvider = UserProvider();
-  if (FirebaseAuth.instance.currentUser != null) {
-    await userProvider.refreshUser();
-  }
+  // final userProvider = UserProvider();
+  // if (FirebaseAuth.instance.currentUser != null) {
+  //   await userProvider.refreshUser();
+  // }
   runApp(ChangeNotifierProvider<UserProvider>(
     child: const MainApp(),
-    create: (context) => userProvider,
+    create: (context) => UserProvider(),
   ));
 }
 
@@ -42,7 +42,6 @@ class MainApp extends StatelessWidget {
                   mobileScreen: ResponsiveMobileLayout(),
                   webScreen: ResponsiveWebLayout(),
                 );
-                //const SignUpScreen()
               }
               if (snapshot.hasError) {
                 return Center(

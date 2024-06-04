@@ -20,17 +20,38 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
     super.initState();
   }
 
-
+  Future<bool> initUser() async {
+    await context.read<UserProvider>().refreshUser();
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth > webScreenSize) {
-          return widget.webScreen;
-        }
-        return widget.mobileScreen;
-      },
-    );
+    return FutureBuilder(
+        future: initUser(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data == true) {
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxWidth > webScreenSize) {
+                    return widget.webScreen;
+                  }
+                  return widget.mobileScreen;
+                },
+              );
+            } else {
+              return const Center(
+                child: Text("Failed to load data"),
+              );
+            }
+          } else {
+            return const Center(
+              child: Text("No Data"),
+            );
+          }
+        });
   }
 }

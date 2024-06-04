@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/models/comment_model.dart';
 import 'package:flutter_application_instagram/models/post_model.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
@@ -87,9 +86,52 @@ class FireStoreMethods {
     return usersList;
   }
 
-  Future<UserModel> getUserByUid(String uid) async{
-   DocumentSnapshot<Map<String, dynamic>> data = await _firestore.collection('users').doc(uid).get();
+  Future<UserModel> getUserByUid(String uid) async {
+    DocumentSnapshot<Map<String, dynamic>> data =
+        await _firestore.collection('users').doc(uid).get();
 
-   return UserModel.formSnap(data);
+    return UserModel.formSnap(data);
+  }
+
+  Future<int> getPostsCount(String uid) async {
+    AggregateQuerySnapshot data = await _firestore
+        .collection('posts')
+        .where('userUid', isEqualTo: uid)
+        .count()
+        .get();
+    if (data.count == null) {
+      return 0;
+    }
+    return data.count!;
+  }
+
+  Future<void> followUser(String currentUserUid, String targetUser) async {
+    List<dynamic> targetUserFollowers =
+        (await _firestore.collection('users').doc(targetUser).get())
+            .data()!['followers'];
+    List<dynamic> currentUserFollowing =
+        (await _firestore.collection('users').doc(currentUserUid).get())
+            .data()!['following'];
+
+    bool isFollowBefore = false;
+    targetUserFollowers.asMap().forEach((key, value) {
+      if (value == currentUserUid) {
+        isFollowBefore = true;
+      }
+    });
+    if (isFollowBefore == false) {
+      targetUserFollowers.add(currentUserUid);
+      currentUserFollowing.add(targetUser);
+    }
+    await _firestore.collection('users').doc(targetUser).update({
+      'followers': isFollowBefore
+          ? FieldValue.arrayRemove([currentUserUid])
+          : FieldValue.arrayUnion(targetUserFollowers)
+    });
+    await _firestore.collection('users').doc(currentUserUid).update({
+      'following': isFollowBefore
+          ? FieldValue.arrayRemove([targetUser])
+          : FieldValue.arrayUnion(currentUserFollowing)
+    });
   }
 }

@@ -3,10 +3,14 @@ import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final Widget widget;
+  final double vertical;
+  final Color? color;
 
   const CustomButton({
     super.key,
     required this.widget,
+    this.vertical = 10,
+    this.color = blueColor,
   });
 
   @override
@@ -14,10 +18,10 @@ class CustomButton extends StatelessWidget {
     return Container(
       width: double.infinity,
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: const ShapeDecoration(
-        color: blueColor,
-        shape: RoundedRectangleBorder(
+      padding: EdgeInsets.symmetric(vertical: vertical),
+      decoration: ShapeDecoration(
+        color: color,
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(4))),
       ),
       child: widget,

@@ -6,9 +6,8 @@ import 'package:flutter_application_instagram/resources/firebase/firestore_metho
 class UserProvider with ChangeNotifier {
   UserModel? _user;
   UserModel get user => _user!;
-  Future<UserModel> refreshUser() async {
+  Future<void> refreshUser() async {
     _user = await AuthMethods().getUser();
-    return _user!;
   }
     Future<UserModel> getUserByUid(String uid) async {
     _user = await FireStoreMethods().getUserByUid(uid);
