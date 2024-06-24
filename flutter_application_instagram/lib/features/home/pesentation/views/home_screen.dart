@@ -1,19 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/constants/app_images.dart';
 import 'package:flutter_application_instagram/features/home/data/model/post_model.dart';
+import 'package:flutter_application_instagram/features/home/pesentation/manage/fetch_posts_cubit/fetch_posts_cubit.dart';
+import 'package:flutter_application_instagram/features/home/pesentation/manage/fetch_posts_cubit/fetch_posts_state.dart';
 import 'package:flutter_application_instagram/features/home/pesentation/widgets/post_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,39 +26,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {}, icon: const Icon(Icons.message_outlined))
           ],
         ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-          builder: (context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.hasError) {
-              return const Center(
-                child: Text("An Error has occerrd"),
-              );
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (snapshot.hasData) {
-              
+        body: BlocProvider(
+          create: (context) => FetchPostsCubit(),
+          child: BlocConsumer<FetchPostsCubit, FetchPostsState>(
+            listener: (context, state) {
+              if (state is FetchPostsFauiler) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.errorMessage),
+                  backgroundColor: Colors.red,
+                ));
+              }
+            },
+            builder: (context, state) {
+              List<PostModel> postsList =
+                  BlocProvider.of<FetchPostsCubit>(context).postsList;
               return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: postsList.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: PostCard(
-                      postModel: PostModel.formSnap(snapshot.data!.docs[index]),
+                      postModel: postsList[index],
                     ),
                   );
                 },
               );
-            }
-
-            return const Center(
-              child: Text('No Posts Found'),
-            );
-          },
+            },
+          ),
         ));
   }
 }
