@@ -2,12 +2,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
+import 'package:flutter_application_instagram/core/firebase/firestore_methods.dart';
 import 'package:flutter_application_instagram/core/utilis/functions/image_picker.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
-import 'package:flutter_application_instagram/providors/user_providor.dart';
-import 'package:flutter_application_instagram/core/firebase/firestore_methods.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+
+import '../../../../user_cubit/user_cubit.dart';
 
 class AddPostScreenState extends StatefulWidget {
   const AddPostScreenState({super.key});
@@ -95,7 +96,7 @@ class _AddPostScreenStateState extends State<AddPostScreenState> {
 
   @override
   Widget build(BuildContext context) {
-    UserModel user = Provider.of<UserProvider>(context, listen: false).user;
+    UserModel user = BlocProvider.of<UserCubit>(context, listen: false).user;
     return _postImage == null
         ? Center(
             child: IconButton(

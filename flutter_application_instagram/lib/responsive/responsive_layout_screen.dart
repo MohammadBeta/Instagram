@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_instagram/providors/user_providor.dart';
+import 'package:flutter_application_instagram/user_cubit/user_cubit.dart';
 import 'package:provider/provider.dart';
 
 import '../core/constants/platforms_diminssions.dart';
@@ -21,7 +21,7 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   }
 
   Future<bool> initUser() async {
-    await context.read<UserProvider>().refreshUser();
+    await context.read<UserCubit>().refreshUser();
     return true;
   }
 

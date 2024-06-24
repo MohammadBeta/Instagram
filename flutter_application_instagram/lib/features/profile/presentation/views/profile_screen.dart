@@ -1,15 +1,15 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/constants/app_images.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
-import 'package:flutter_application_instagram/providors/user_providor.dart';
 import 'package:flutter_application_instagram/core/firebase/firestore_methods.dart';
 import 'package:flutter_application_instagram/core/widgets/custom_button.dart';
 import 'package:flutter_application_instagram/features/profile/presentation/widgets/profile_statistics.dart';
+import 'package:flutter_application_instagram/user_cubit/user_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -30,13 +30,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<UserModel> getUserInfo(String userUid) async {
-    return await Provider.of<UserProvider>(context, listen: false)
+    return await BlocProvider.of<UserCubit>(context)
         .getUserByUid(userUid);
   }
 
   @override
   Widget build(BuildContext context) {
-    String currentUserUid = Provider.of<UserProvider>(context).user.userUid;
+    String currentUserUid = BlocProvider.of<UserCubit>(context).user.userUid;
     return Scaffold(
         backgroundColor: mobileBackgroundColor,
         appBar: AppBar(

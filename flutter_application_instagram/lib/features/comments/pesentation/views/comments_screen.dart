@@ -4,12 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/features/comments/data/model/comment_model.dart';
-import 'package:flutter_application_instagram/models/user_model.dart';
-import 'package:flutter_application_instagram/providors/user_providor.dart';
 import 'package:flutter_application_instagram/features/comments/pesentation/widgets/comment_card.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_application_instagram/models/user_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/firebase/firestore_methods.dart';
+import '../../../../user_cubit/user_cubit.dart';
 
 class CommentsScreen extends StatefulWidget {
   final String postId;
@@ -79,7 +79,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserModel user = Provider.of<UserProvider>(context, listen: false).user;
+    UserModel user = BlocProvider.of<UserCubit>(context, listen: false).user;
     return Scaffold(
         backgroundColor: mobileBackgroundColor,
         resizeToAvoidBottomInset: true,
