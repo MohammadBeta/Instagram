@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
-import 'package:flutter_application_instagram/resources/firebase/auth_metohds.dart';
-import 'package:flutter_application_instagram/resources/firebase/firestore_methods.dart';
+import 'package:flutter_application_instagram/core/firebase/auth_metohds.dart';
+import 'package:flutter_application_instagram/core/firebase/firestore_methods.dart';
 
 class UserProvider with ChangeNotifier {
   UserModel? _user;

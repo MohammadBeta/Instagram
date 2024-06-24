@@ -7,9 +7,9 @@ import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/constants/app_images.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
 import 'package:flutter_application_instagram/providors/user_providor.dart';
-import 'package:flutter_application_instagram/resources/firebase/firestore_methods.dart';
-import 'package:flutter_application_instagram/widgets/custom_button.dart';
-import 'package:flutter_application_instagram/widgets/profile_statistics.dart';
+import 'package:flutter_application_instagram/core/firebase/firestore_methods.dart';
+import 'package:flutter_application_instagram/core/widgets/custom_button.dart';
+import 'package:flutter_application_instagram/features/profile/presentation/widgets/profile_statistics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 

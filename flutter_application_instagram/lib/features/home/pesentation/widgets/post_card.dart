@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
-import 'package:flutter_application_instagram/models/post_model.dart';
-import 'package:flutter_application_instagram/screens/comments_screen.dart';
+import 'package:flutter_application_instagram/features/home/data/model/post_model.dart';
+import 'package:flutter_application_instagram/features/comments/pesentation/views/comments_screen.dart';
 
 class PostCard extends StatefulWidget {
   const PostCard({super.key, required this.postModel});

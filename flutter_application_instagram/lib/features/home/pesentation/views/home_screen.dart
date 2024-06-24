@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/constants/app_images.dart';
-import 'package:flutter_application_instagram/models/post_model.dart';
-import 'package:flutter_application_instagram/widgets/post_card.dart';
+import 'package:flutter_application_instagram/features/home/data/model/post_model.dart';
+import 'package:flutter_application_instagram/features/home/pesentation/widgets/post_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatefulWidget {

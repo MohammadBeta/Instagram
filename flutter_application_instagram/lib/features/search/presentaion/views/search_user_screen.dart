@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
-import 'package:flutter_application_instagram/models/user_search_result_model.dart';
-import 'package:flutter_application_instagram/resources/firebase/firestore_methods.dart';
-import 'package:flutter_application_instagram/widgets/user_search_card.dart';
+import 'package:flutter_application_instagram/features/search/data/model/user_search_result_model.dart';
+import 'package:flutter_application_instagram/core/firebase/firestore_methods.dart';
+import 'package:flutter_application_instagram/features/search/presentaion/widgets/user_search_card.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

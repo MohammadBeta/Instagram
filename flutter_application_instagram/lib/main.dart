@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/providors/user_providor.dart';
-import 'package:flutter_application_instagram/screens/login_screen.dart';
+import 'package:flutter_application_instagram/features/auth/presentation/views/login_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'core/constants/app_colors.dart';

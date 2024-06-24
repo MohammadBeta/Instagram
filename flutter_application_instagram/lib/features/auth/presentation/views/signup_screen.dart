@@ -4,15 +4,15 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/constants/app_images.dart';
-import 'package:flutter_application_instagram/screens/login_screen.dart';
-import 'package:flutter_application_instagram/widgets/custom_button.dart';
-import 'package:flutter_application_instagram/widgets/custom_text_field.dart';
-import 'package:flutter_application_instagram/widgets/profile_image_picker.dart';
+import 'package:flutter_application_instagram/features/auth/presentation/views/login_screen.dart';
+import 'package:flutter_application_instagram/core/widgets/custom_button.dart';
+import 'package:flutter_application_instagram/core/widgets/custom_text_field.dart';
+import 'package:flutter_application_instagram/features/auth/presentation/widgets/profile_image_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../core/utilis/functions/image_picker.dart';
-import '../resources/firebase/auth_metohds.dart';
+import '../../../../core/utilis/functions/image_picker.dart';
+import '../../../../core/firebase/auth_metohds.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

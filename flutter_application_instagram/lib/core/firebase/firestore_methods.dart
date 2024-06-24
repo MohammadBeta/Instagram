@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_instagram/models/comment_model.dart';
-import 'package:flutter_application_instagram/models/post_model.dart';
+import 'package:flutter_application_instagram/features/comments/data/model/comment_model.dart';
+import 'package:flutter_application_instagram/features/home/data/model/post_model.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
-import 'package:flutter_application_instagram/models/user_search_result_model.dart';
-import 'package:flutter_application_instagram/resources/firebase/storage_methods.dart';
+import 'package:flutter_application_instagram/features/search/data/model/user_search_result_model.dart';
+import 'package:flutter_application_instagram/core/firebase/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
 class FireStoreMethods {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
-import 'package:flutter_application_instagram/models/comment_model.dart';
+import 'package:flutter_application_instagram/features/comments/data/model/comment_model.dart';
 
 class CommentCard extends StatefulWidget {
   const CommentCard({super.key, required this.commentModel});

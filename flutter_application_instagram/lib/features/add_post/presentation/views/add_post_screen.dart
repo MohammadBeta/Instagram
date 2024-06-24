@@ -5,7 +5,7 @@ import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/utilis/functions/image_picker.dart';
 import 'package:flutter_application_instagram/models/user_model.dart';
 import 'package:flutter_application_instagram/providors/user_providor.dart';
-import 'package:flutter_application_instagram/resources/firebase/firestore_methods.dart';
+import 'package:flutter_application_instagram/core/firebase/firestore_methods.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 

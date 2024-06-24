@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_instagram/core/constants/app_colors.dart';
 import 'package:flutter_application_instagram/core/constants/app_images.dart';
-import 'package:flutter_application_instagram/resources/firebase/auth_metohds.dart';
-import 'package:flutter_application_instagram/screens/signup_screen.dart';
-import 'package:flutter_application_instagram/widgets/custom_button.dart';
-import 'package:flutter_application_instagram/widgets/custom_text_field.dart';
+import 'package:flutter_application_instagram/core/firebase/auth_metohds.dart';
+import 'package:flutter_application_instagram/features/auth/presentation/views/signup_screen.dart';
+import 'package:flutter_application_instagram/core/widgets/custom_button.dart';
+import 'package:flutter_application_instagram/core/widgets/custom_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {

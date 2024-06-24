@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_instagram/screens/profile_screen.dart';
+import 'package:flutter_application_instagram/features/profile/presentation/views/profile_screen.dart';
 
 class UserSearchResult extends StatelessWidget {
   const UserSearchResult(
